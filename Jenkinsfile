@@ -12,21 +12,6 @@ pipeline {
               git 'https://github.com/sanketh0107/maven-web-app.git'
             }
         }
-        stage('Build') {
-            steps {
-              git branch: 'main', url: 'https://github.com/sanketh0107/maven-web-app.git'
-               sh 'mvn clean package'
-            }
-        }
-        
-        stage('Create Image'){
-            steps{
-               steps {
-                	script {
-                		sh 'ansible-playbook task.yml'
-                	}
-                }
-            }
-        }
     }
 }
+        

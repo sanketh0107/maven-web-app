@@ -1,17 +1,15 @@
 pipeline {
   
-    agent {
-        label 'Ansible-Node'
-    }
+    agent  any
     
     tools{
-        maven "Maven-3.9.6"
+        maven "maven"
     }
 
     stages {
         stage('Clone') {
             steps {
-               git 'https://github.com/ashokitschool/maven-web-app.git'
+              git 'https://github.com/sanketh0107/maven-web-app.git'
             }
         }
         stage('Build') {

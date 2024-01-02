@@ -1,17 +1,32 @@
 pipeline {
-  
-    agent  any
+    agent any
     
-    tools{
-        maven "maven"
+    tools {
+        maven 'maven'
     }
+     
 
-    stages {
-        stage('Clone') {
+stages{
+        stage('Build'){
             steps {
-              git 'https://github.com/sanketh0107/maven-web-app.git'
+                sh 'mvn clean package'
+            }
+            post {
+                success {
+                    echo 'Archiving the artifacts'
+                    archiveArtifacts artifacts: '**/target/*.war'
+                }
+            }
+        }
+
+        stage ('Deployments'){
+            parallel{
+                stage ("Deploy to Staging"){
+                    steps {
+                        sh "scp -v -o StrictHostKeyChecking=no **/*.war root@${params.staging_server}:/opt/tomcat/webapps/"
+                    }
+                }
             }
         }
     }
 }
-        
